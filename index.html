@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR Virus - Purple Edition</title>
+
+  <!-- A-FRAME -->
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+  <!-- AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #0b0217;
+      font-family: Arial, sans-serif;
+    }
+
+    /* TITLE */
+    #titleBox {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 26px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #a770ef, #cf8bf3, #fdb99b);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 0 12px rgba(207, 139, 243, 0.6);
+      z-index: 9999;
+    }
+
+    /* PANEL BUTTONS */
+    .panel {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: wrap;
+      width: 95%;
+      max-width: 450px;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .btn {
+      flex: 1 1 calc(50% - 10px);
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(110, 0, 255, 0.5);
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 16px rgba(130, 0, 255, 0.7);
+    }
+
+    /* STATUS */
+    #scanStatus {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      color: white;
+      background: rgba(98, 0, 153, 0.65);
+      border-radius: 12px;
+      border: 2px solid #b06cff;
+      z-index: 9999;
+      display: none;
+      box-shadow: 0 0 12px rgba(176, 108, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="titleBox">AR Virus Model — Purple UI</div>
+  <div id="scanStatus"></div>
+
+  <!-- PANEL -->
+  <div class="panel">
+    <button class="btn" onclick="rotateUp()">⬆ Rotate Up</button>
+    <button class="btn" onclick="rotateDown()">⬇ Rotate Down</button>
+    <button class="btn" onclick="rotateLeft()">⬅ Rotate Left</button>
+    <button class="btn" onclick="rotateRight()">➡ Rotate Right</button>
+    <button class="btn" onclick="resetRotation()">Reset</button>
+    <button class="btn" onclick="toggleUI()">Hide / Show UI</button>
+  </div>
+
+  <!-- AR SCENE -->
+  <a-scene embedded arjs="sourceType: webcam; facingMode: environment;">
+    <a-marker preset="hiro" id="marker">
+      <a-entity id="myModel" gltf-model="url(models/viruss.glb)"
+                position="0 0 0" rotation="0 0 0" scale="0.3 0.3 0.3">
+      </a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <script>
+    let model = document.getElementById('myModel');
+    let marker = document.getElementById('marker');
+    let statusBox = document.getElementById('scanStatus');
+
+    /* Marker Status */
+    marker.addEventListener('markerFound', () => {
+      showStatus('✔ Marker Terdeteksi!', 'lime');
+    });
+    marker.addEventListener('markerLost', () => {
+      showStatus('✖ Marker Hilang', 'red');
+    });
+
+    function showStatus(msg, color) {
+      statusBox.innerHTML = msg;
+      statusBox.style.display = "block";
+      statusBox.style.borderColor = color;
+      setTimeout(() => statusBox.style.display = "none", 1500);
+    }
+
+    /* ROTATION */
+    function rotateUp() {
+      let r = model.getAttribute('rotation');
+      model.setAttribute('rotation', { x: r.x - 10, y: r.y, z: r.z });
+    }
+    function rotateDown() {
+      let r = model.getAttribute('rotation');
+      model.setAttribute('rotation', { x: r.x + 10, y: r.y, z: r.z });
+    }
+    function rotateLeft() {
+      let r = model.getAttribute('rotation');
+      model.setAttribute('rotation', { x: r.x, y: r.y - 10, z: r.z });
+    }
+    function rotateRight() {
+      let r = model.getAttribute('rotation');
+      model.setAttribute('rotation', { x: r.x, y: r.y + 10, z: r.z });
+    }
+    function resetRotation() {
+      model.setAttribute('rotation', { x: 0, y: 0, z: 0 });
+    }
+
+    /* HIDE/SHOW UI */
+    let uiHidden = false;
+    function toggleUI() {
+      uiHidden = !uiHidden;
+
+      let elements = [
+        document.getElementById("titleBox"),
+        document.getElementById("scanStatus"),
+        document.querySelector(".panel")
+      ];
+
+      elements.forEach(el => {
+        if (el) el.style.display = uiHidden ? "none" : "block";
+      });
+    }
+  </script>
+
+</body>
+</html>
