@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <title>Virus AR Learning</title>
 
+<!-- A-FRAME -->
 <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+
+<!-- AR.JS -->
 <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,7 +20,7 @@ body {
   overflow: hidden;
 }
 
-/* ========== MENU AWAL ========== */
+/* ===== MENU AWAL ===== */
 #startScreen {
   position: fixed;
   inset: 0;
@@ -34,11 +37,6 @@ body {
 #startScreen h1 {
   font-size: 28px;
   color: #6a11cb;
-}
-
-#startScreen p {
-  color: #555;
-  max-width: 400px;
 }
 
 .step {
@@ -62,13 +60,13 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,.3);
 }
 
-/* ========== TOP STATUS ========== */
+/* ===== STATUS ===== */
 #statusBox {
   position: fixed;
   top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(90,0,160,.7);
+  background: rgba(90,0,160,.8);
   color: white;
   padding: 10px 20px;
   border-radius: 14px;
@@ -76,7 +74,7 @@ body {
   z-index: 9999;
 }
 
-/* ========== INFO PANEL ========== */
+/* ===== INFO PANEL ===== */
 #infoPanel {
   position: fixed;
   bottom: 15px;
@@ -114,7 +112,20 @@ body {
   cursor: pointer;
 }
 
-/* ========== CONTROL BUTTONS ========== */
+/* ===== BACA SELENGKAPNYA ===== */
+.readMore {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg,#6a11cb,#2575fc);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 14px;
+  box-shadow: 0 6px 15px rgba(0,0,0,.25);
+}
+
+/* ===== CONTROL ===== */
 .panel {
   position: fixed;
   right: 10px;
@@ -142,7 +153,7 @@ body {
 <!-- MENU AWAL -->
 <div id="startScreen">
   <h1>🦠 Virus AR</h1>
-  <p>Jelajahi model virus 3D secara interaktif menggunakan teknologi Augmented Reality.</p>
+  <p>Jelajahi model virus 3D secara interaktif menggunakan Augmented Reality.</p>
 
   <div class="step">1️⃣ Siapkan marker AR</div>
   <div class="step">2️⃣ Arahkan kamera ke marker</div>
@@ -157,13 +168,20 @@ body {
 <!-- INFO VIRUS -->
 <div id="infoPanel">
   <div class="closeBtn" onclick="infoPanel.style.display='none'">✖</div>
-  <h3>Virus Corona</h3>
+  <h3>Virus Corona (COVID-19)</h3>
   <div class="tag">Virologi</div>
+
   <p>
-    Virus Corona adalah virus RNA yang memiliki struktur protein spike
-    di permukaannya. Virus ini menyerang sistem pernapasan manusia
-    dan menjadi penyebab pandemi global.
+    Virus Corona adalah virus RNA yang memiliki protein spike di
+    permukaannya. Virus ini menyerang sistem pernapasan manusia dan
+    dapat menyebabkan infeksi dari ringan hingga berat.
   </p>
+
+  <a href="https://www.alodokter.com/virus-corona"
+     target="_blank"
+     class="readMore">
+     📖 Baca selengkapnya
+  </a>
 </div>
 
 <!-- CONTROL -->
