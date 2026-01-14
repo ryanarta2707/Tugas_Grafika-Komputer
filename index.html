@@ -112,11 +112,18 @@ body {
   cursor: pointer;
 }
 
-/* ===== BACA SELENGKAPNYA ===== */
-.readMore {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 10px 16px;
+/* ===== BUTTON INFO ===== */
+.infoButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.readMore,
+.videoBtn {
+  flex: 1;
+  text-align: center;
+  padding: 10px 12px;
   background: linear-gradient(135deg,#6a11cb,#2575fc);
   color: white;
   text-decoration: none;
@@ -153,7 +160,7 @@ body {
 <!-- MENU AWAL -->
 <div id="startScreen">
   <h1>🦠 Virus AR</h1>
-  <p>Jelajahi model virus 3D secara interaktif menggunakan Augmented Reality.</p>
+  <p>Jelajahi model virus 3D secara interaktif menggunakan teknologi Augmented Reality.</p>
 
   <div class="step">1️⃣ Siapkan marker AR</div>
   <div class="step">2️⃣ Arahkan kamera ke marker</div>
@@ -172,16 +179,24 @@ body {
   <div class="tag">Virologi</div>
 
   <p>
-    Virus Corona adalah virus RNA yang memiliki protein spike di
-    permukaannya. Virus ini menyerang sistem pernapasan manusia dan
-    dapat menyebabkan infeksi dari ringan hingga berat.
+    Virus Corona adalah virus RNA yang memiliki protein spike
+    di permukaannya. Virus ini menyerang sistem pernapasan
+    manusia dan dapat menyebabkan infeksi ringan hingga berat.
   </p>
 
-  <a href="https://www.alodokter.com/virus-corona"
-     target="_blank"
-     class="readMore">
-     📖 Baca selengkapnya
-  </a>
+  <div class="infoButtons">
+    <a href="https://www.alodokter.com/virus-corona"
+       target="_blank"
+       class="readMore">
+       📖 Baca selengkapnya
+    </a>
+
+    <a href="https://www.youtube.com/watch?v=ftNCj06d7KE"
+       target="_blank"
+       class="videoBtn">
+       🎥 Video Penjelasan
+    </a>
+  </div>
 </div>
 
 <!-- CONTROL -->
@@ -230,10 +245,22 @@ function showStatus(msg){
   setTimeout(()=>statusBox.style.display="none",1500);
 }
 
-function rotateLeft(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x,y:r.y-10,z:r.z}); }
-function rotateRight(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x,y:r.y+10,z:r.z}); }
-function rotateUp(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x-10,y:r.y,z:r.z}); }
-function rotateDown(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x+10,y:r.y,z:r.z}); }
+function rotateLeft(){
+  let r=model.getAttribute("rotation");
+  model.setAttribute("rotation",{x:r.x,y:r.y-10,z:r.z});
+}
+function rotateRight(){
+  let r=model.getAttribute("rotation");
+  model.setAttribute("rotation",{x:r.x,y:r.y+10,z:r.z});
+}
+function rotateUp(){
+  let r=model.getAttribute("rotation");
+  model.setAttribute("rotation",{x:r.x-10,y:r.y,z:r.z});
+}
+function rotateDown(){
+  let r=model.getAttribute("rotation");
+  model.setAttribute("rotation",{x:r.x+10,y:r.y,z:r.z});
+}
 </script>
 
 </body>
