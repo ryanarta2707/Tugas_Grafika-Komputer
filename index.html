@@ -1,174 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>AR Virus - Purple Edition</title>
+<meta charset="UTF-8">
+<title>Virus AR Learning</title>
 
-  <!-- A-FRAME -->
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
 
-  <!-- AR.js -->
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#5f2c82,#49a09d);
+  overflow: hidden;
+}
 
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: #0b0217;
-      font-family: Arial, sans-serif;
-    }
+/* ========== MENU AWAL ========== */
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  text-align: center;
+}
 
-    /* TITLE */
-    #titleBox {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 12px 26px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #a770ef, #cf8bf3, #fdb99b);
-      color: white;
-      font-size: 20px;
-      font-weight: bold;
-      box-shadow: 0 0 12px rgba(207, 139, 243, 0.6);
-      z-index: 9999;
-    }
+#startScreen h1 {
+  font-size: 28px;
+  color: #6a11cb;
+}
 
-    /* PANEL BUTTONS */
-    .panel {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-wrap: wrap;
-      width: 95%;
-      max-width: 450px;
-      gap: 12px;
-      z-index: 9999;
-    }
+#startScreen p {
+  color: #555;
+  max-width: 400px;
+}
 
-    .btn {
-      flex: 1 1 calc(50% - 10px);
-      padding: 14px 16px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(110, 0, 255, 0.5);
-      transition: 0.2s ease;
-    }
+.step {
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 8px 0;
+  width: 100%;
+  max-width: 400px;
+}
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 16px rgba(130, 0, 255, 0.7);
-    }
+#startBtn {
+  margin-top: 20px;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg,#6a11cb,#2575fc);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,.3);
+}
 
-    /* STATUS */
-    #scanStatus {
-      position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 10px 20px;
-      color: white;
-      background: rgba(98, 0, 153, 0.65);
-      border-radius: 12px;
-      border: 2px solid #b06cff;
-      z-index: 9999;
-      display: none;
-      box-shadow: 0 0 12px rgba(176, 108, 255, 0.5);
-    }
-  </style>
+/* ========== TOP STATUS ========== */
+#statusBox {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(90,0,160,.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 14px;
+  display: none;
+  z-index: 9999;
+}
+
+/* ========== INFO PANEL ========== */
+#infoPanel {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  width: 90%;
+  max-width: 420px;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.3);
+  display: none;
+  z-index: 9999;
+}
+
+#infoPanel h3 {
+  margin: 0;
+  color: #6a11cb;
+}
+
+.tag {
+  display: inline-block;
+  background: #e1d5ff;
+  color: #5a00a0;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.closeBtn {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  cursor: pointer;
+}
+
+/* ========== CONTROL BUTTONS ========== */
+.panel {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg,#6a11cb,#2575fc);
+  color: white;
+  font-size: 16px;
+}
+</style>
 </head>
 
 <body>
 
-  <div id="titleBox">AR Virus Model — Purple UI</div>
-  <div id="scanStatus"></div>
+<!-- MENU AWAL -->
+<div id="startScreen">
+  <h1>🦠 Virus AR</h1>
+  <p>Jelajahi model virus 3D secara interaktif menggunakan teknologi Augmented Reality.</p>
 
-  <!-- PANEL -->
-  <div class="panel">
-    <button class="btn" onclick="rotateUp()">⬆ Rotate Up</button>
-    <button class="btn" onclick="rotateDown()">⬇ Rotate Down</button>
-    <button class="btn" onclick="rotateLeft()">⬅ Rotate Left</button>
-    <button class="btn" onclick="rotateRight()">➡ Rotate Right</button>
-    <button class="btn" onclick="resetRotation()">Reset</button>
-    <button class="btn" onclick="toggleUI()">Hide / Show UI</button>
-  </div>
+  <div class="step">1️⃣ Siapkan marker AR</div>
+  <div class="step">2️⃣ Arahkan kamera ke marker</div>
+  <div class="step">3️⃣ Amati struktur virus</div>
 
-  <!-- AR SCENE -->
-  <a-scene embedded arjs="sourceType: webcam; facingMode: environment;">
-    <a-marker preset="hiro" id="marker">
-      <a-entity id="myModel" gltf-model="url(models/viruss.glb)"
-                position="0 0 0" rotation="0 0 0" scale="0.3 0.3 0.3">
-      </a-entity>
-    </a-marker>
+  <button id="startBtn" onclick="startAR()">📷 Mulai Pengalaman AR</button>
+</div>
 
-    <a-entity camera></a-entity>
-  </a-scene>
+<!-- STATUS -->
+<div id="statusBox"></div>
 
-  <script>
-    let model = document.getElementById('myModel');
-    let marker = document.getElementById('marker');
-    let statusBox = document.getElementById('scanStatus');
+<!-- INFO VIRUS -->
+<div id="infoPanel">
+  <div class="closeBtn" onclick="infoPanel.style.display='none'">✖</div>
+  <h3>Virus Corona</h3>
+  <div class="tag">Virologi</div>
+  <p>
+    Virus Corona adalah virus RNA yang memiliki struktur protein spike
+    di permukaannya. Virus ini menyerang sistem pernapasan manusia
+    dan menjadi penyebab pandemi global.
+  </p>
+</div>
 
-    /* Marker Status */
-    marker.addEventListener('markerFound', () => {
-      showStatus('✔ Marker Terdeteksi!', 'lime');
-    });
-    marker.addEventListener('markerLost', () => {
-      showStatus('✖ Marker Hilang', 'red');
-    });
+<!-- CONTROL -->
+<div class="panel">
+  <button class="btn" onclick="rotateLeft()">⬅</button>
+  <button class="btn" onclick="rotateRight()">➡</button>
+  <button class="btn" onclick="rotateUp()">⬆</button>
+  <button class="btn" onclick="rotateDown()">⬇</button>
+</div>
 
-    function showStatus(msg, color) {
-      statusBox.innerHTML = msg;
-      statusBox.style.display = "block";
-      statusBox.style.borderColor = color;
-      setTimeout(() => statusBox.style.display = "none", 1500);
-    }
+<!-- AR SCENE -->
+<a-scene embedded arjs="sourceType: webcam; facingMode: environment;" style="display:none" id="sceneAR">
+  <a-marker preset="hiro" id="marker">
+    <a-entity id="virusModel"
+      gltf-model="url(models/viruss.glb)"
+      scale="0.3 0.3 0.3">
+    </a-entity>
+  </a-marker>
+  <a-entity camera></a-entity>
+</a-scene>
 
-    /* ROTATION */
-    function rotateUp() {
-      let r = model.getAttribute('rotation');
-      model.setAttribute('rotation', { x: r.x - 10, y: r.y, z: r.z });
-    }
-    function rotateDown() {
-      let r = model.getAttribute('rotation');
-      model.setAttribute('rotation', { x: r.x + 10, y: r.y, z: r.z });
-    }
-    function rotateLeft() {
-      let r = model.getAttribute('rotation');
-      model.setAttribute('rotation', { x: r.x, y: r.y - 10, z: r.z });
-    }
-    function rotateRight() {
-      let r = model.getAttribute('rotation');
-      model.setAttribute('rotation', { x: r.x, y: r.y + 10, z: r.z });
-    }
-    function resetRotation() {
-      model.setAttribute('rotation', { x: 0, y: 0, z: 0 });
-    }
+<script>
+let model = document.getElementById("virusModel");
+let marker = document.getElementById("marker");
+let statusBox = document.getElementById("statusBox");
+let infoPanel = document.getElementById("infoPanel");
 
-    /* HIDE/SHOW UI */
-    let uiHidden = false;
-    function toggleUI() {
-      uiHidden = !uiHidden;
+function startAR(){
+  document.getElementById("startScreen").style.display="none";
+  document.getElementById("sceneAR").style.display="block";
+}
 
-      let elements = [
-        document.getElementById("titleBox"),
-        document.getElementById("scanStatus"),
-        document.querySelector(".panel")
-      ];
+marker.addEventListener("markerFound",()=>{
+  showStatus("✔ Virus Terdeteksi");
+  infoPanel.style.display="block";
+});
 
-      elements.forEach(el => {
-        if (el) el.style.display = uiHidden ? "none" : "block";
-      });
-    }
-  </script>
+marker.addEventListener("markerLost",()=>{
+  showStatus("✖ Marker Hilang");
+  infoPanel.style.display="none";
+});
+
+function showStatus(msg){
+  statusBox.innerHTML = msg;
+  statusBox.style.display="block";
+  setTimeout(()=>statusBox.style.display="none",1500);
+}
+
+function rotateLeft(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x,y:r.y-10,z:r.z}); }
+function rotateRight(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x,y:r.y+10,z:r.z}); }
+function rotateUp(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x-10,y:r.y,z:r.z}); }
+function rotateDown(){ let r=model.getAttribute("rotation"); model.setAttribute("rotation",{x:r.x+10,y:r.y,z:r.z}); }
+</script>
 
 </body>
 </html>
